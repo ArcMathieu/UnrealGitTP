@@ -40,8 +40,10 @@ void AHitLava::Tick(float DeltaTime)
 void AHitLava::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	ACharacter* Character = Cast<ACharacter>(OtherActor);
-	if (Character == nullptr)
+	if (Character == nullptr) {
+		GLog->Log("NoCharacterFound");
 		return;
+	}
 
 	if (WaitDmgTime <= 0.f)
 	{

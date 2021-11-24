@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "BulletDecal.h"
+#include "Components/ArrowComponent.h"
 #include "TPCPPGITCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -34,11 +35,11 @@ public:
 		void Shoot();
 	
 	UFUNCTION()
-		void TakeDamage(float DamageTaken, FDamageEvent const& DamageEvent, APawn* PawnInstigator, AActor* DamageCauser);
+		virtual float TakeDamage(float DamageTaken, FDamageEvent const& DamageEvent, AController* PawnInstigator, AActor* DamageCauser) override;
 
 	UFUNCTION()
 		void Die();
-
+	
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Variables")
 		int Health;
 	

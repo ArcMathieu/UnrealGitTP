@@ -16,7 +16,7 @@ ATPCPPGITGameMode::ATPCPPGITGameMode()
 
 void ATPCPPGITGameMode::Respawn(AController* currentController)
 {
-	FVector StartLocation = FVector(920, -350, 200);
+	FVector StartLocation = FVector(-800, 350, 230);
 	if (APawn* Pawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, StartLocation, FRotator::ZeroRotator))
 	{
 		currentController->Possess(Pawn);

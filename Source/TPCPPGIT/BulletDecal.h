@@ -23,7 +23,7 @@ public:
 	UPROPERTY(EditAnyWhere, Category = "Components")
 		class UProjectileMovementComponent* BulletMovement;
 
-	UPROPERTY(EditAnyWhere, Category = "Components")
+	UPROPERTY(EditAnyWhere, Category = "DecalTexture")
 		class UMaterialInterface* BulletSplatTxt;
 
 	class ADecalActor* BulletSplat;
@@ -49,5 +49,4 @@ public:
 	UFUNCTION()
 		void HitDestroy();
 
-	float TimeAlpha;
 };

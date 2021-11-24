@@ -15,6 +15,9 @@ public:
 	ATPCPPGITGameMode();
 
 	void Respawn(AController* currentController);
+
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Variables")
+		FVector StartPlayerLocation;
 };
 
 

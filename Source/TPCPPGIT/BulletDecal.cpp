@@ -38,7 +38,6 @@ void ABulletDecal::Tick(float DeltaTime)
 	FVector StartTrace = this->GetActorLocation();
 	FVector EndTrace = (Velocity * DeltaTime) + StartTrace;
 	EndTrace.Z += this->GetActorRotation().Pitch;
-	TimeAlpha--;
 	FCollisionQueryParams CollisionParam;
 	CollisionParam.AddIgnoredActor(this);
 
@@ -47,7 +46,6 @@ void ABulletDecal::Tick(float DeltaTime)
 		if (HitResult.GetActor()) {
 			if (!canSpawnDecal)
 			{
-				TimeAlpha = 60 * 5;
 				canSpawnDecal = true;
 				ADecalActor* decal = GetWorld()->SpawnActor<ADecalActor>(HitResult.Location, FRotator());
 				decal->SetDecalMaterial(BulletSplatTxt);
@@ -64,7 +62,7 @@ void ABulletDecal::Tick(float DeltaTime)
 	else
 	{
 		BulletExpiry += DeltaTime;
-
+		SetActorLocation(EndTrace);
 		Velocity += FVector(0.f, 0.f, -200.f) * DeltaTime;
 	}
 

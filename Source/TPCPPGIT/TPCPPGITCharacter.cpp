@@ -144,13 +144,15 @@ void ATPCPPGITCharacter::MoveRight(float Value)
 
 void ATPCPPGITCharacter::Shoot() 
 {
+	FTransform Location = GetActorTransform();
+	Location.SetLocation(FollowCamera->GetComponentRotation().Vector() * 200.f + GetActorLocation());
+	FActorSpawnParameters Params;
 
-	FVector Location = GetActorLocation() + FVector(0, 0, 50);
-	ABulletDecal* CurrentBullet = GetWorld()->SpawnActor<ABulletDecal>(Bullet, Location, GetActorRotation());
-	CurrentBullet->GetActorForwardVector() * 5000.f;
+	ABulletDecal* CurrentBullet = GetWorld()->SpawnActor<ABulletDecal>(Bullet, Location, Params);
+	CurrentBullet->GetActorForwardVector() * 2000.f;
 }
 
-void ATPCPPGITCharacter::TakeDamage(float DamageTaken, FDamageEvent const& DamageEvent, APawn* PawnInstigator, AActor* DamageCauser)
+float ATPCPPGITCharacter::TakeDamage(float DamageTaken, FDamageEvent const& DamageEvent, AController* PawnInstigator, AActor* DamageCauser)
 {
 	Health -= DamageTaken;
 
@@ -160,8 +162,10 @@ void ATPCPPGITCharacter::TakeDamage(float DamageTaken, FDamageEvent const& Damag
 	{
 		GetCharacterMovement()->DisableMovement();
 		GetMesh()->SetSimulatePhysics(true);
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle_PainTimer, this, &ATPCPPGITCharacter::Die, 3.0f, false);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle_PainTimer, this, &ATPCPPGITCharacter::Die, 4.0f, false);
 	}
+
+	return DamageTaken;
 }
 
 void ATPCPPGITCharacter::Die()

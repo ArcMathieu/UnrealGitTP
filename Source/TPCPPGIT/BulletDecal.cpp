@@ -75,5 +75,6 @@ void ABulletDecal::Tick(float DeltaTime)
 
 void ABulletDecal::HitDestroy()
 {
+	GLog->Log("DeleteBullet");
 	Destroy();
 }

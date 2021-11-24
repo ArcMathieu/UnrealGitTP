@@ -13,3 +13,13 @@ ATPCPPGITGameMode::ATPCPPGITGameMode()
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
 }
+
+void ATPCPPGITGameMode::Respawn(AController* currentController)
+{
+	FVector StartLocation = FVector(920, -350, 200);
+	if (APawn* Pawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, StartLocation, FRotator::ZeroRotator))
+	{
+		currentController->Possess(Pawn);
+	}
+	
+}

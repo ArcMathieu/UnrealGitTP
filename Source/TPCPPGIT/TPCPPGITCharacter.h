@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "BulletDecal.h"
 #include "TPCPPGITCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -29,6 +30,22 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
+	UFUNCTION()
+		void Shoot();
+	
+	UFUNCTION()
+		void TakeDamage(float DamageTaken, FDamageEvent const& DamageEvent, APawn* PawnInstigator, AActor* DamageCauser);
+
+	UFUNCTION()
+		void Die();
+
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Variables")
+		int Health;
+	
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Variables")
+		class TSubclassOf<ABulletDecal> Bullet;
+
+	FTimerHandle TimerHandle_PainTimer;
 protected:
 
 	/** Resets HMD orientation in VR. */

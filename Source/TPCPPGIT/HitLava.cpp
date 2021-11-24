@@ -24,10 +24,6 @@ AHitLava::AHitLava()
 void AHitLava::BeginPlay()
 {
 	Super::BeginPlay();
-	if (WaitDmgTime > 0.f)
-	{
-		WaitDmgTime--;
-	}
 }
 
 // Called every frame
@@ -35,6 +31,10 @@ void AHitLava::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (WaitDmgTime > 0.f)
+	{
+		WaitDmgTime--;
+	}
 }
 
 void AHitLava::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)

@@ -13,6 +13,8 @@ class ATPCPPGITGameMode : public AGameModeBase
 
 public:
 	ATPCPPGITGameMode();
+
+	void Respawn(AController* currentController);
 };
 
 

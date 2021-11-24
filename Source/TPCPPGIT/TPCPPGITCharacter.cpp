@@ -1,6 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "TPCPPGITCharacter.h"
+#include "TPCPPGITGameMode.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -56,6 +57,8 @@ void ATPCPPGITCharacter::SetupPlayerInputComponent(class UInputComponent* Player
 	check(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ATPCPPGITCharacter::Shoot);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &ATPCPPGITCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ATPCPPGITCharacter::MoveRight);
@@ -137,4 +140,36 @@ void ATPCPPGITCharacter::MoveRight(float Value)
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
+}
+
+void ATPCPPGITCharacter::Shoot() 
+{
+
+	FVector Location = GetActorLocation() + FVector(0, 0, 50);
+	ABulletDecal* CurrentBullet = GetWorld()->SpawnActor<ABulletDecal>(Bullet, Location, GetActorRotation());
+	CurrentBullet->GetActorForwardVector() * 5000.f;
+}
+
+void ATPCPPGITCharacter::TakeDamage(float DamageTaken, FDamageEvent const& DamageEvent, APawn* PawnInstigator, AActor* DamageCauser)
+{
+	Health -= DamageTaken;
+
+	GLog->Log("PlayerHit");
+
+	if (Health <= 0) 
+	{
+		GetCharacterMovement()->DisableMovement();
+		GetMesh()->SetSimulatePhysics(true);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle_PainTimer, this, &ATPCPPGITCharacter::Die, 3.0f, false);
+	}
+}
+
+void ATPCPPGITCharacter::Die()
+{
+	AGameModeBase* Manager = GetWorld()->GetAuthGameMode();
+	if (ATPCPPGITGameMode* GameManager = Cast<ATPCPPGITGameMode>(Manager))
+	{
+		GameManager->Respawn(GetController());
+	}
+	Destroy();
 }
